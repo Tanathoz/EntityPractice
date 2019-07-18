@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ConstruramaModel2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="sexo" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sexo" Type="varchar" MaxLength="1" />
+          <Property Name="salario" Type="decimal" Precision="6" Scale="0" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="precio" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="comentario" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="IDventa" />
+          </Key>
+          <Property Name="IDventa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDCliente" Type="int" />
+          <Property Name="IDProducto" Type="int" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="date" />
+        </EntityType>
+        <Association Name="FK__Ventas__Fecha__3F466844">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IDCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ventas__IDProduc__403A8C7D">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="InsertarCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="lastName" Type="varchar" Mode="In" />
+          <Parameter Name="sexo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MasterProductCrud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="precio" Type="decimal" Mode="In" />
+          <Parameter Name="comentario" Type="varchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="ConstruramaModel2StoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Ventas__Fecha__3F466844" Association="Self.FK__Ventas__Fecha__3F466844">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ventas__IDProduc__403A8C7D" Association="Self.FK__Ventas__IDProduc__403A8C7D">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ConstruramaModel2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ventas" Relationship="Self.FK__Ventas__Fecha__3F466844" FromRole="Cliente" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="salario" Type="Decimal" Precision="6" Scale="0" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="precio" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ventas" Relationship="Self.FK__Ventas__IDProduc__403A8C7D" FromRole="Product" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="IDventa" />
+          </Key>
+          <Property Name="IDventa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDCliente" Type="Int32" />
+          <Property Name="IDProducto" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Ventas__Fecha__3F466844" FromRole="Ventas" ToRole="Cliente" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Ventas__IDProduc__403A8C7D" FromRole="Ventas" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Ventas__Fecha__3F466844">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IDCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ventas__IDProduc__403A8C7D">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ConstruramaDBEntitied" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" />
+          <AssociationSet Name="FK__Ventas__Fecha__3F466844" Association="Self.FK__Ventas__Fecha__3F466844">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ventas__IDProduc__403A8C7D" Association="Self.FK__Ventas__IDProduc__403A8C7D">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <FunctionImport Name="InsertarCliente">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="sexo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MasterProductCrud">
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="precio" Mode="In" Type="Decimal" />
+            <Parameter Name="comentario" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ConstruramaModel2StoreContainer" CdmEntityContainer="ConstruramaDBEntitied">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="ConstruramaModel2.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLEADO">
+            <EntityTypeMapping TypeName="ConstruramaModel2.EMPLEADO">
+              <MappingFragment StoreEntitySet="EMPLEADO">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="salario" ColumnName="salario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="ConstruramaModel2.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="ConstruramaModel2.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="IDventa" ColumnName="IDventa" />
+                <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
+                <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertarCliente" FunctionName="ConstruramaModel2.Store.InsertarCliente" />
+          <FunctionImportMapping FunctionImportName="MasterProductCrud" FunctionName="ConstruramaModel2.Store.MasterProductCrud" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

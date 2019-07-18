@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ConstruramaModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="precio" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="comentario" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="IDventa" />
+          </Key>
+          <Property Name="IDventa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDCliente" Type="int" />
+          <Property Name="IDProducto" Type="int" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="date" />
+        </EntityType>
+        <Association Name="FK__Ventas__IDProduc__403A8C7D">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ConstruramaModel1StoreContainer">
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Ventas__IDProduc__403A8C7D" Association="Self.FK__Ventas__IDProduc__403A8C7D">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ConstruramaModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="precio" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ventas" Relationship="Self.FK__Ventas__IDProduc__403A8C7D" FromRole="Product" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="IDventa" />
+          </Key>
+          <Property Name="IDventa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDCliente" Type="Int32" />
+          <Property Name="IDProducto" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Ventas__IDProduc__403A8C7D" FromRole="Ventas" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Ventas__IDProduc__403A8C7D">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ConstruramaEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" />
+          <AssociationSet Name="FK__Ventas__IDProduc__403A8C7D" Association="Self.FK__Ventas__IDProduc__403A8C7D">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ConstruramaModel1StoreContainer" CdmEntityContainer="ConstruramaEntities1">
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="ConstruramaModel1.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="ConstruramaModel1.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="IDventa" ColumnName="IDventa" />
+                <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
+                <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
