@@ -17,6 +17,8 @@ namespace ConstructoraExample.Areas.Clientes.Controllers
         public ActionResult Index()
         {
             List<ClienteViewModel> lstClientes = new List<ClienteViewModel>();
+            List<ClienteViewModel> lstLinqClientes = new List<ClienteViewModel>();
+
             using (SqlConnection conex = ConexionSQLS.OpenConect())
             {  
                 conex.Open();
@@ -43,9 +45,14 @@ namespace ConstructoraExample.Areas.Clientes.Controllers
                 
                 ModelState.AddModelError(string.Empty, "Error al obtener los datos");
             }
+
+            lstLinqClientes = (from s in lstClientes
+                               where s.sex.Contains("M")
+                               select s).ToList<ClienteViewModel>(); 
+                              
+                              //new { s.ID, s.name, s.lastName, s.sex};  
             
-            
-                return View(lstClientes);
+                return View(lstLinqClientes);
                
         }
 

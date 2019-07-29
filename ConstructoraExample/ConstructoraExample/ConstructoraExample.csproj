@@ -163,8 +163,10 @@
     <Compile Include="Areas\Empleado\Controllers\EmpleadoController.cs" />
     <Compile Include="Areas\Empleado\EmpleadoAreaRegistration.cs" />
     <Compile Include="Areas\Empleado\Models\EmpleadoViewModel.cs" />
+    <Compile Include="Areas\Productos\Controllers\CategoriaController.cs" />
     <Compile Include="Areas\Productos\Controllers\ProductController.cs" />
     <Compile Include="Areas\Clientes\Models\ClienteViewModel.cs" />
+    <Compile Include="Areas\Productos\Models\CategoriaViewModel.cs" />
     <Compile Include="Areas\Productos\Models\ProductoViewModel.cs" />
     <Compile Include="Areas\Productos\ProductosAreaRegistration.cs" />
     <Compile Include="Cliente.cs">
@@ -363,6 +365,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Productos\Views\Categoria\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
